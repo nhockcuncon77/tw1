@@ -1,0 +1,83 @@
+<html>
+
+<body>
+    <nav>
+        <a href="/" class="brand"><span>TwitOff!</span></a>
+
+        <!-- responsive-->
+        <input id="bmenub" type="checkbox" class="show">
+        <label for="bmenub" class="burger pseudo button">Menu</label>
+
+        <div class="menu">
+            <a href="/update" class="button warning">Update Tweets</a>
+            <a href="/reset" class="button error">Reset Database</a>
+        </div>
+    </nav>
+    <article class="flex two" style="padding: 3em 1em;">
+        {% block content %}
+        <div>
+            <h1>{{ title }}</h1>
+            <form action="/compare" method="post">
+                <select name="user0">
+                    {% for user in users %}
+                    <option value="{{ user.name }}">{{ user.name }}</option>
+                    {% endfor %}
+                </select>
+                <select name="user1">
+                    {% for user in users %}
+                    <option value="{{ user.name }}">{{ user.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="tweet_text" placeholder="Tweet text to predict">
+                <input type="submit" value="Compare Users">
+            </form>
+        </div>
+
+        {% endblock %}
+    </article>
+    <h2>Add User</h2>
+    <form method="POST" action="/">
+        <input type="text" name="name">
+        <input type="submit" value="Add">
+        <input type="text" name="tweet">
+        <input type="text" name="user_id">
+        <input type="submit" value="Add">
+    </form>
+
+    <h2>Users</h2>
+    <h4>id, name</h4>
+    <table>
+        {% for user in users %}
+        <tr>
+            <td>
+                {{user.id}}, {{user.name}}
+            </td>
+            <td>
+                <form method="POST" action="./delete" style="display: inline">
+                    <input type="hidden" value="{{user.name}}" name="name">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>Tweet</h2>
+    <h4>id, Tweet</h4>
+    <table>
+        {% for tweet in tweets %}
+        <tr>
+            <td>
+                {{tweet.id}}, {{tweet.text}}
+            </td>
+            <td>
+                <form method="POST" action="./delete" style="display: inline">
+                    <input type="hidden" value="{{tweet.name}}" name="tweet">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
